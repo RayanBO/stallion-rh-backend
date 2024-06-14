@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stallion sessions</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f4f4f4;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Utilisateurs actifs</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Depuit</th>
+                <th>Login</th>
+                <th>Socket ID</th>
+                <th>ID user</th>
+            </tr>
+        </thead>
+        <tbody id="user-list"></tbody>
+    </table>
+    <script>
+        fetch('/sessions/data')
+            .then(response => response.json())
+            .then(data => {
+                const userList = document.getElementById('user-list');
+                data.forEach(user => {
+                    console.log(`Datetime: ${user.datetime}, Name: ${user.name}, Socket ID: ${user.socketId}, IP: ${user.ip}`);
+                    const row = document.createElement('tr');
+
+                    const datetimeCell = document.createElement('td');
+                    const nameCell = document.createElement('td');
+                    const socketIdCell = document.createElement('td');
+                    const ipCell = document.createElement('td');
+
+                    datetimeCell.textContent = user.datetime;
+                    nameCell.textContent = user.name;
+                    socketIdCell.textContent = user.socketId;
+                    ipCell.textContent = user.ip;
+
+                    row.appendChild(datetimeCell);
+                    row.appendChild(nameCell);
+                    row.appendChild(socketIdCell);
+                    row.appendChild(ipCell);
+                    userList.appendChild(row);
+                });
+            });
+    </script>
+</body>
+
+</html>
