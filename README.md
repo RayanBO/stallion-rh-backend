@@ -6,8 +6,7 @@ https://butternut-lean-powder.glitch.me/
 
 https://butternut-lean-powder.glitch.me/intervenant/listes
 
- #url front end 
- stallion-rh-online.web.app
+[frontend](https://stallion-rh-online.web.app/)
 
 # etape 
 1. dans package.json
