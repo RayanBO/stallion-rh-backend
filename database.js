@@ -1,5 +1,5 @@
-const Database = require('better-sqlite3');
-const db = new Database('./stallion-rh.db');
+const sqlite3 = require('sqlite3').verbose();
+const db = new sqlite3.Database('./stallion-rh.db');
 
 // Créez les tables si elles n'existent pas
 db.exec(`
