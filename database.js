@@ -1,21 +1,22 @@
-const sqlite3 = require('sqlite3').verbose();
-const db = new sqlite3.Database('./stallion-rh.db');
+const Database = require('better-sqlite3');
+const db = new Database('./stallion-rh.db');
 
-db.serialize(() => {
-  db.run(`CREATE TABLE IF NOT EXISTS users (
+// Créez les tables si elles n'existent pas
+db.exec(`
+  CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     username TEXT NOT NULL UNIQUE,
     password TEXT NOT NULL
-  )`);
+  );
 
-  db.run(`CREATE TABLE IF NOT EXISTS messages (
+  CREATE TABLE IF NOT EXISTS messages (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     senderId INTEGER,
     recipientId INTEGER,
     content TEXT,
     FOREIGN KEY (senderId) REFERENCES users(id),
     FOREIGN KEY (recipientId) REFERENCES users(id)
-  )`);
-});
+  );
+`);
 
 module.exports = db;
