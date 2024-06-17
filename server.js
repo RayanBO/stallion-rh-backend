@@ -6,7 +6,8 @@ const cors = require('cors');
 const db = require('./database');
 const routes = require('./routes');
 const { router: sessionsRouter, activeUsers, getIp } = require('./sessions');
-const importRouter = require('./import'); // Importer le routeur d'importation
+const importRouter = require('./import');
+const intervRouter = require('./intervenant');
 
 const app = express();
 const server = http.createServer(app);
@@ -17,14 +18,15 @@ const io = socketIo(server, {
   }
 });
 
-app.use(cors()); // Utilisation du middleware CORS
+app.use(cors()); 
 app.use(bodyParser.json());
 app.use('/api', routes);
-app.use('/sessions', sessionsRouter); // Utilisation du routeur sessions
-app.use('/import', importRouter); // Utilisation du routeur d'importation
+app.use('/sessions', sessionsRouter);
+app.use('/import', importRouter);
+app.use('/intervenant', intervRouter);
 
 io.on('connection', (socket) => {
-  console.log('Nouveau client !');
+  // console.log('Nouveau client !');
 
   // Ajouter l'utilisateur à la liste des actifs
   socket.on('login', (username) => {
@@ -39,14 +41,14 @@ io.on('connection', (socket) => {
       ip: ip
     });
 
-    console.log(`User ${username} connected with socket id ${socket.id}`);
+    // console.log(`User ${username} connected with socket id ${socket.id}`);
   });
 
   // Supprimer l'utilisateur de la liste des actifs lors de la déconnexion
   socket.on('disconnect', () => {
     const userIndex = activeUsers.findIndex(user => user.socketId === socket.id);
     if (userIndex !== -1) {
-      console.log(`User ${activeUsers[userIndex].name} déconnecté`);
+      // console.log(`User ${activeUsers[userIndex].name} déconnecté`);
       activeUsers.splice(userIndex, 1);
     }
   });
