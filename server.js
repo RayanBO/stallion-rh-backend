@@ -13,7 +13,7 @@ const app = express();
 const server = http.createServer(app);
 const io = socketIo(server, {
   cors: {
-    origin: "http://localhost:3000", // Remplacez par l'origine de votre application React
+    origin: "https://stallion-rh-online.web.app/", // Remplacez par l'origine de votre application React
     methods: ["GET", "POST"]
   }
 });
